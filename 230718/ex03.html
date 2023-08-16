@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+</head>
+<body>
+    <div id = "post"></div>
+        <script id="temp" type ="text/x-handlebars-template">
+            {{#each .}}
+            <h5>{{id}}:{{title}}</h5>
+            <hr>
+            <p>{{body}}</p>
+            {{/each}} 
+        </script>
+</body>
+<script>
+    getpost();
+    function getpost(){
+        $.ajax({
+            type:"get",
+            url:"https://jsonplaceholder.typicode.com/posts",
+            dateType:"json",
+            success:function(data){
+                const rows=data.filter(post=>post.id<=10);
+                // console.log(rows)
+                let temp = Handlebars.compile($("#temp").html());
+                $("#post").html(temp(rows))
+            }
+        });
+    }
+</script>
+</html>

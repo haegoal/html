@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>첫번째 예제</title>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+
+    <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+    <h1 class ="title">상품관리</h1>
+    <form name="frm">
+        번호:<input name = "code" size="10" placeholder="상품코드" value="103">
+        <hr>
+        이름:<input name = "name" size="50" placeholder="상품이름">
+        <hr>
+        가격:<input name = "price" type="number" size="10" step="1000">원
+        <hr>
+        <input type ="submit" value="상품등록">
+        <input type ="reset" value="등록취소">    
+    </form>
+
+    <h1 class ="title">상품목록</h1>
+
+    <div id="list"></div>
+    <script id ="temp" type="text/x-handlebars-template">
+        
+    <table id="tbl">
+        {{#each .}}
+        <tr index="{{@index}}">
+            <td >{{code}}</td>
+            <td class = "name">{{name}}</td>
+            <td >{{price}}</td>
+            <td ><button>삭제</button></td>
+        </tr>
+        {{/each}}
+    </table>
+    </script>
+</body>
+<script>
+    let code=103;
+    $(frm.code).val(code);
+    let products = [
+        {code:100, name:'비스포크 냉장고', price:2500000},
+        {code:101, name:'투인원 에어컨', price:1500000},
+        {code:102, name:'드럼세탁기', price:1200000}
+    ]
+
+    //목록을 출력하는 함수
+    getlist();
+    function getlist(){
+        let temp = Handlebars.compile($("#temp").html());
+        $("#list").html(temp(products));
+
+    }
+
+  $("#list").on("click", "tr td button", function(){
+        let tr = $(this).parent().parent();
+        let index = tr.attr("index");
+        let name = tr.find(".code").text();
+        if(confirm( name +  "를 삭제하시겠습니까?")){
+            products.splice(index, 1);
+            getlist();
+        }
+    })
+
+
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        let code = $(frm.code).val();
+        let name = $(frm.name).val();
+        let price = $(frm.price).val();
+
+        if(code == ""){
+            alert('코드입력바람')
+            $(frm.code).focus();
+        }else if(name == ""){
+            alert('코드입력바람')
+            $(frm.name).focus();
+        }else if(price == ""){
+            alert('가격입력바람')
+            $(frm.price).focus();
+        }else{
+            if(confirm("새로운 상품을 등록하실래요?")){
+                const product={code:code, name:name, price:price}
+                products.push(product)
+                getlist();
+                alert(`상품코드:${code}\n상품이름:${name}\n상품가격:${price} 등록완료!`);
+                code++;
+                $(frm.code).val(code);
+                $(frm.name).val("");
+                $(frm.price).val("");
+            }else{
+                alert("등록이 취소되었습니다.")
+            }
+           
+        }
+    });
+
+</script>
+</html>

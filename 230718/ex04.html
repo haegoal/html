@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id = "todos"></div>
+    <script id = "temp" type ="x-handlebars-template">
+    {{#each .}}
+    <h5>{{userid}}</h5>
+    <h5>{{id}}</h5>
+    <p>{{title}}</p>
+    <h5>{{compile}}</h5>
+    {{/each}}
+</script>
+</body>
+<script>
+    gettodo();
+    function gettodo(){ 
+    $.ajax({
+        type: "get",
+        url: "https://jsonplaceholder.typicode.com/todos",
+        dataType: "json",
+        success: function(data){
+            const rows = data.filter(t=>t.id<=5);
+            let temp = Handlebars.compile($("#temp").html());
+                $("#todos").html(temp(rows))
+        }
+    })
+}
+
+
+
+
+</script>
+</html>

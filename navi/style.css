@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Single+Day&display=swap');
+
+*{
+    font-family: 'Single Day', cursive;
+}
+
+:root{
+    --background-color:#263343;
+}
+
+body{
+    margin: 0px;
+}
+.nava{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: var(--background-color);
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+.nava_l{
+    font-size: 24px;
+}
+
+.nava_m{
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+}
+
+
+.nava_m li{
+    padding: 8px 12px;
+}
+
+.nava_m li :hover{
+    background-color: #d49466;
+    border-radius: 4px;
+}
+
+.nava_i{
+    list-style: none;
+    display: flex;
+    padding-left: 0;
+}
+
+.nava_i li{
+    padding: 8px 12px;
+}
+
+.nava_tog {
+    display: none;
+    position: absolute;
+    right: 32px;
+    color: #d49466;
+    font-size: 24px;
+}
+
+@media screen and (max-width: 768px) {
+    .nava{
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 24px;
+    }
+
+    .nava_m{
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .nava_m li{
+        width: 100%;
+        text-align: center;
+    }
+
+    .nava_i{
+        width: 100%;
+        display: none;
+        justify-content: center;
+
+    }
+
+    .nava_tog{
+        display: block;
+    }
+
+    .nava_m.active,
+    .nava_i.active{
+        display: flex;
+    }
+}
